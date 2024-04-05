@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0" author="leonardo">
+        <createTable tableName="clients">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1" author="leonardo">
+        <createSequence sequenceName="sq_clients" incrementBy="1" startValue="1"/>
+    </changeSet>
+    <changeSet id="2" author="leonardo">
+        <createTable tableName="ducks">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="idMae" type="BIGINT">
+                <constraints foreignKeyName="fk_duck_id" references="clients(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="leonardo">
+        <createSequence sequenceName="sq_ducks" incrementBy="1" startValue="1"/>
+    </changeSet>
+    <changeSet id="4" author="leonardo">
+        <dropColumn tableName="ducks" columnName="idMae"/>
+    </changeSet>
+    <changeSet id="5" author="leonardo">
+        <addColumn tableName="ducks">
+            <column name="id_mae" type="bigint">
+                <constraints foreignKeyName="fk_duck_id" references="ducks(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="6" author="leonardo">
+        <createTable tableName="sales">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="price" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_duck" type="BIGINT">
+                <constraints foreignKeyName="fk_duck_id" references="ducks(id)"/>
+            </column>
+            <column name="id_client" type="BIGINT">
+                <constraints foreignKeyName="fk_client_id" references="clients(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="leonardo">
+        <createSequence sequenceName="sq_sales" incrementBy="1" startValue="1"/>
+    </changeSet>
+
+</databaseChangeLog>
